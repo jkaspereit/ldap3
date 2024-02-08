@@ -312,6 +312,7 @@ class BaseStrategy(object):
         Send an LDAP message
         Returns the message_id
         """
+        print('this is the right method, here happens the error')
         self.connection.request = None
         if self.connection.listening:
             if self.connection.sasl_in_progress and message_type not in ['bindRequest']:  # as per RFC4511 (4.2.1)
