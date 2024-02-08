@@ -601,13 +601,13 @@ class Connection(object):
                     if log_enabled(PROTOCOL):
                         log(PROTOCOL, 'performing simple BIND for <%s>', self)
                     if not self.strategy.pooled:
-                        print('hello world')
+                        #HELLO WORLD
                         request = bind_operation(self.version, self.authentication, self.user, self.password, auto_encode=self.auto_encode)
+                        print('hello world')
                         if log_enabled(PROTOCOL):
                             log(PROTOCOL, 'simple BIND request <%s> sent via <%s>', bind_request_to_dict(request), self)
                         response = self.post_send_single_response(self.send('bindRequest', request, controls))
                     else:
-                        print('oh')
                         response = self.strategy.validate_bind(controls)  # only for REUSABLE
                 elif self.authentication == SASL:
                     if self.sasl_mechanism in SASL_AVAILABLE_MECHANISMS:
