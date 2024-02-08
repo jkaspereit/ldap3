@@ -56,7 +56,10 @@ def bind_operation(version,
         if password is None:
             raise LDAPPasswordIsMandatoryError('password is mandatory in simple bind')
         else:
+            print('A')
+            print(Simple(validate_simple_password(password)))
             request['authentication'] = AuthenticationChoice().setComponentByName('simple', Simple(validate_simple_password(password)))
+            print('B')
     elif authentication == SASL:
         sasl_creds = SaslCredentials()
         sasl_creds['mechanism'] = sasl_mechanism
