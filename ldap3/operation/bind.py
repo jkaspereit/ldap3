@@ -53,7 +53,7 @@ def bind_operation(version,
     if authentication == SIMPLE:
         if not name:
             raise LDAPUserNameIsMandatoryError('user name is mandatory in simple bind')
-        if password:
+        if password is None:
             request['authentication'] = AuthenticationChoice().setComponentByName('simple', Simple(validate_simple_password(password)))
         else:
             raise LDAPPasswordIsMandatoryError('password is mandatory in simple bind')
