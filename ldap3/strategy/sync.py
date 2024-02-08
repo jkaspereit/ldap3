@@ -157,6 +157,7 @@ class SyncStrategy(BaseStrategy):
         Executed after an Operation Request (except Search)
         Returns the result message or None
         """
+        print('i found the correct method')
         responses, result = self.get_response(message_id)
         self.connection.result = result
         if result['type'] == 'intermediateResponse':  # checks that all responses are intermediates (there should be only one)
