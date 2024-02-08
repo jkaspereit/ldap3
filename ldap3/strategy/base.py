@@ -329,6 +329,8 @@ class BaseStrategy(object):
                 ldap_message['controls'] = message_controls
             self.connection.request = BaseStrategy.decode_request(message_type, request, controls)
             self._outstanding[message_id] = self.connection.request
+            print(ldap_message)
+            print('error is not before sending')
             self.sending(ldap_message)
         else:
             self.connection.last_error = 'unable to send message, socket is not open'
