@@ -320,7 +320,10 @@ class BaseStrategy(object):
                 if log_enabled(ERROR):
                     log(ERROR, '<%s> for <%s>', self.connection.last_error, self.connection)
                 raise LDAPSASLBindInProgressError(self.connection.last_error)
+            # Probably already to late. 
+            print(self.connection.server)
             message_id = self.connection.server.next_message_id()
+            print(message_id)
             ldap_message = LDAPMessage()
             ldap_message['messageID'] = MessageID(message_id)
             ldap_message['protocolOp'] = ProtocolOp().setComponentByName(message_type, request)
@@ -330,8 +333,9 @@ class BaseStrategy(object):
             self.connection.request = BaseStrategy.decode_request(message_type, request, controls)
             self._outstanding[message_id] = self.connection.request
             print(ldap_message)
-            print('error is not before sending')
+            print('error is before sending!!!')
             self.sending(ldap_message)
+            print('error is not before sending')
         else:
             self.connection.last_error = 'unable to send message, socket is not open'
             if log_enabled(ERROR):
