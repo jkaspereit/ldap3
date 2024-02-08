@@ -127,7 +127,7 @@ def validate_simple_password(password, accept_empty=False):
     validate simple password as per RFC4013 using sasl_prep:
     """
 
-    if accept_empty and not password:
+    if not password:
         return password
     elif not password:
         raise LDAPPasswordIsMandatoryError("simple password can't be empty")
