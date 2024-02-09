@@ -320,7 +320,11 @@ class BaseStrategy(object):
                 if log_enabled(ERROR):
                     log(ERROR, '<%s> for <%s>', self.connection.last_error, self.connection)
                 raise LDAPSASLBindInProgressError(self.connection.last_error)
-            # Probably already to late. 
+            # Probably already to late.
+
+            #TODO I think the LDAP Message is maybe malformed through my changes.
+            #TODO Look at a valid LDAP Message and reformat the LDAP Message to a valid one. 
+            #TODO Then the server might be willing to perform 
             print(self.connection.server)
             message_id = self.connection.server.next_message_id()
             print(message_id)
@@ -885,6 +889,7 @@ class BaseStrategy(object):
                 encoded_message = int(len(encoded_message) + 4 + 2 + 10).to_bytes(4, 'big') + encoded_message + signature + int(1).to_bytes(2, 'big') + int(sec_num).to_bytes(4, 'big')
                 self.connection._digest_md5_sec_num += 1
 
+            print(f'Encoded message socket.sendall:{encoded_message}')
             self.connection.socket.sendall(encoded_message)
             if log_enabled(EXTENDED):
                 log(EXTENDED, 'ldap message sent via <%s>:%s', self.connection, format_ldap_message(ldap_message, '>>'))
@@ -892,6 +897,7 @@ class BaseStrategy(object):
                 log(NETWORK, 'sent %d bytes via <%s>', len(encoded_message), self.connection)
         except socket.error as e:
             self.connection.last_error = 'socket sending error' + str(e)
+            print('socket sending error' + str(e))
             encoded_message = None
             if log_enabled(ERROR):
                 log(ERROR, '<%s> for <%s>', self.connection.last_error, self.connection)
